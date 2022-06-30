@@ -32,30 +32,50 @@
 
 const puppeteer = require('puppeteer');
 
+const mainPage =
+  'https://www.timeout.com/sydney/restaurants/the-best-vegan-restaurants-in-sydney';
+
 async function scrape() {
   const data = {};
 
   const browser = await puppeteer.launch({});
   const page = await browser.newPage();
 
-  await page.goto(
-    'https://www.timeout.com/sydney/restaurants/the-best-vegan-restaurants-in-sydney'
-  );
+  await page.goto(mainPage);
 
-  data.articleTitle = await page.evaluate(
-    (el) => el.textContent,
-    await page.$('h1')
-  );
-  data.articleDate = await page.evaluate(
-    (el) => el.textContent,
-    await page.$('time')
-  );
+  data.title = await page.$eval('h1', (el) => el.textContent);
+  data.date = await page.$eval('time', (el) => el.textContent);
+
+  /*
   data.restaurants = await page.evaluate(() =>
     Array.from(document.querySelectorAll('._h3_cuogz_1'), (element) =>
       element.textContent.replace(/(\d+\.\s)/g, '')
     )
   );
+  */
 
+  const visitRestaurant = async ({ name, link }) => {
+    const detailPage = await browser.newPage();
+    await detailPage.goto(link);
+    const description = await detailPage.evaluate(
+      (el) => el.textContent,
+      await detailPage.$('#content p')
+    );
+
+    return {
+      name,
+      description,
+    };
+  };
+
+  const restaurants = await page.evaluate(() =>
+    Array.from(document.querySelectorAll('.tile'), (a) => ({
+      name: a.querySelector('h3').textContent,
+      link: a.querySelector('._a_12eii_1').href,
+    }))
+  );
+
+  data.restaurants = await Promise.all(restaurants.map(visitRestaurant));
   console.log(data);
   browser.close();
 }
