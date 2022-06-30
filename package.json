@@ -1,0 +1,22 @@
+{
+  "name": "dojo-scrapping",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ComicScrip/dojo-scrapping.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ComicScrip/dojo-scrapping/issues"
+  },
+  "homepage": "https://github.com/ComicScrip/dojo-scrapping#readme",
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
+}
