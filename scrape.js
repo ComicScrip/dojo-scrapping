@@ -52,47 +52,6 @@ async function scrape() {
     )
   );
 
-  /*
-
-  const visitRestaurant = async ({ name, link }) => {
-    const detailPage = await browser.newPage();
-    await detailPage.goto(link);
-    const description = await detailPage.$eval(
-      '#content p',
-      (el) => el.textContent
-    );
-    const rating = await detailPage.$$eval(
-      '._star_k40fn_15._filled_k40fn_19',
-      (el) => el.length
-    );
-    const address = await detailPage.$$eval(
-      '[data-section="details"] ._list_1fhdc_5 dd',
-      (els) =>
-        Array.from(els)
-          .map((el) => el.textContent)
-          .join(' - ')
-    );
-
-    const restaurantInfo = {
-      name,
-      description,
-      address,
-    };
-
-    if (rating) restaurantInfo.rating = rating / 2;
-
-    return restaurantInfo;
-  };
-
-  const restaurants = await page.evaluate(() =>
-    Array.from(document.querySelectorAll('.tile'), (a) => ({
-      name: a.querySelector('h3').textContent.replace(/(\d+\.\s)/g, ''),
-      link: a.querySelector('._a_12eii_1').href,
-    }))
-  );
-
-  data.restaurants = await Promise.all(restaurants.map(visitRestaurant));
-  */
   console.log(data);
   browser.close();
 }
