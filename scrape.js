@@ -84,14 +84,12 @@ async function scrape() {
     return restaurantInfo;
   };
 
-  /*
   const restaurants = await page.evaluate(() =>
     Array.from(document.querySelectorAll('.tile'), (a) => ({
       name: a.querySelector('h3').textContent.replace(/(\d+\.\s)/g, ''),
       link: a.querySelector('._a_12eii_1').href,
     }))
   );
-  */
 
   data.restaurants = await Promise.all(restaurants.map(visitRestaurant));
 
