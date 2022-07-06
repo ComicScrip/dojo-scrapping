@@ -46,13 +46,13 @@ async function scrape() {
   data.title = await page.$eval('h1', (el) => el.textContent);
   data.date = await page.$eval('time', (el) => el.textContent);
 
+  /*
   data.restaurants = await page.evaluate(() =>
     Array.from(document.querySelectorAll('._h3_cuogz_1'), (element) =>
       element.textContent.replace(/(\d+\.\s)/g, '')
     )
   );
-
-  /*
+  */
 
   const visitRestaurant = async ({ name, link }) => {
     const detailPage = await browser.newPage();
@@ -84,15 +84,17 @@ async function scrape() {
     return restaurantInfo;
   };
 
+  /*
   const restaurants = await page.evaluate(() =>
     Array.from(document.querySelectorAll('.tile'), (a) => ({
       name: a.querySelector('h3').textContent.replace(/(\d+\.\s)/g, ''),
       link: a.querySelector('._a_12eii_1').href,
     }))
   );
+  */
 
   data.restaurants = await Promise.all(restaurants.map(visitRestaurant));
-  */
+
   console.log(data);
   browser.close();
 }
